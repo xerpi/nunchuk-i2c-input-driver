@@ -20,9 +20,9 @@ static void timer_function(unsigned long data)
 static int __init nunchuk_input_driver_init(void)
 {
 	int error;
-	
+
 	printk(KERN_INFO "nunchuk_input_driver_init()\n");
-	
+
 	input = input_allocate_device();
 	if (!input) {
 		printk(KERN_ERR "nunchuk_input_driver_init: "
@@ -40,7 +40,7 @@ static int __init nunchuk_input_driver_init(void)
 	set_bit(EV_KEY, input->evbit);
 	set_bit(BTN_LEFT, input->keybit);
 	set_bit(BTN_RIGHT, input->keybit);
-	
+
 	error = input_register_device(input);
 	if (error) {
 		printk(KERN_ERR "nunchuk_input_driver_init: "
@@ -50,8 +50,7 @@ static int __init nunchuk_input_driver_init(void)
 
 	setup_timer(&timer, timer_function, 0);
 	mod_timer(&timer, jiffies + msecs_to_jiffies(100));
-	add_timer(&timer);
-	
+
 	return 0;
 
 err_freedev:
@@ -63,9 +62,9 @@ err_nomem:
 static void __exit nunchuk_input_driver_exit(void)
 {
 	printk(KERN_INFO "nunchuk_input_driver_exit()\n");
-	
-	input_unregister_device(input);
+
 	del_timer_sync(&timer);
+	input_unregister_device(input);
 }
 
 module_init(nunchuk_input_driver_init);
