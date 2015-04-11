@@ -1,7 +1,7 @@
 obj-m = nunchuk-i2c.o
 KERNEL_HEADERS = /lib/modules/$(shell uname -r)/build
 
-default:
+all:
 	make -C $(KERNEL_HEADERS) M=$(PWD) modules
 
 clean:
