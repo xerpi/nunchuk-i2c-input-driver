@@ -76,6 +76,9 @@ static void workqueue_function(struct work_struct *work)
 
 	input_report_rel(nunchuk->input, REL_X, (+nunchuk->report.joy_x - 128)/10);
 	input_report_rel(nunchuk->input, REL_Y, (-nunchuk->report.joy_y + 128)/10);
+	input_report_rel(nunchuk->input, REL_RX, nunchuk->report.acc_x);
+	input_report_rel(nunchuk->input, REL_RY, nunchuk->report.acc_y);
+	input_report_rel(nunchuk->input, REL_RZ, nunchuk->report.acc_z);
 	input_report_key(nunchuk->input, BTN_LEFT, nunchuk->report.Z);
 	input_report_key(nunchuk->input, BTN_RIGHT, nunchuk->report.C);
 	input_sync(nunchuk->input);
@@ -119,6 +122,9 @@ static int nunchuk_i2c_probe(struct i2c_client *client, const struct i2c_device_
 	set_bit(EV_REL, nunchuk->input->evbit);
 	set_bit(REL_X, nunchuk->input->relbit);
 	set_bit(REL_Y, nunchuk->input->relbit);
+	set_bit(REL_RX, nunchuk->input->relbit);
+	set_bit(REL_RX, nunchuk->input->relbit);
+	set_bit(REL_RY, nunchuk->input->relbit);
 
 	set_bit(EV_KEY, nunchuk->input->evbit);
 	set_bit(BTN_LEFT, nunchuk->input->keybit);
